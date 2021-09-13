@@ -50,7 +50,7 @@ app.post('/login', (req, res) => {
 		clientId: process.env.CLIENT_ID,
 		clientSecret: process.env.CLIENT_SECRET,
 	});
-  
+
 	spotifyApi
 		.authorizationCodeGrant(code)
 		.then((data) => {
@@ -61,7 +61,7 @@ app.post('/login', (req, res) => {
 			});
 		})
 		.catch((e) => {
-      console.log(e)
+      // console.log(e)
 			res.sendStatus(400);
 		});
 });
