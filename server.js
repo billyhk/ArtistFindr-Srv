@@ -14,7 +14,7 @@ app.post('/refresh', (req, res) => {
 	const redirectUri =
 		req.body.windowLocationHostname === 'localhost'
 			? 'http://localhost:3000/artists'
-			: 'http://artist-findr.herokuapp.com/artists';
+			: process.env.REDIRECT_URL;
 
 	const refreshToken = req.body.refreshToken;
 
@@ -43,7 +43,7 @@ app.post('/login', (req, res) => {
 	const redirectUri =
 		req.body.windowLocationHostname === 'localhost'
 			? 'http://localhost:3000/artists'
-			: 'http://artist-findr.herokuapp.com/artists';
+			: process.env.REDIRECT_URL;
 
 	// Provide credentials.
 	const spotifyApi = new SpotifyWebApi({
