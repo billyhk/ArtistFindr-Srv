@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Return Access Token given a Refresh Token.
 app.post('/refresh', (req, res) => {
 	const redirectUri =
 		req.body.windowLocationHostname === 'localhost'
@@ -17,6 +18,7 @@ app.post('/refresh', (req, res) => {
 
 	const refreshToken = req.body.refreshToken;
 
+	// Provide credentials.
 	const spotifyApi = new SpotifyWebApi({
 		redirectUri,
 		clientId: process.env.CLIENT_ID,
@@ -32,12 +34,10 @@ app.post('/refresh', (req, res) => {
 				expiresIn: data.body.expiresIn,
 			});
 		})
-		.catch((err) => {
-			console.log(err);
-			res.sendStatus(400);
-		});
+		.catch(() => res.sendStatus(400));
 });
 
+// Return Access Token given a Code. (The client received the code in exchange for Client ID and Client Secret.)
 app.post('/login', (req, res) => {
 	const code = req.body.code;
 	const redirectUri =
@@ -45,6 +45,7 @@ app.post('/login', (req, res) => {
 			? 'http://localhost:3000/artists'
 			: 'http://artist-findr.herokuapp.com/artists';
 
+	// Provide credentials.
 	const spotifyApi = new SpotifyWebApi({
 		redirectUri,
 		clientId: process.env.CLIENT_ID,
@@ -60,10 +61,7 @@ app.post('/login', (req, res) => {
 				expiresIn: data.body.expiresIn,
 			});
 		})
-		.catch((err) => {
-			console.log(err);
-			res.sendStatus(400);
-		});
+		.catch(() => res.sendStatus(400));
 });
 
 app.listen(process.env.PORT || 5000);
