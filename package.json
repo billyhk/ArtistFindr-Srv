@@ -9,7 +9,7 @@
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Billy Kaufman",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
