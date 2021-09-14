@@ -60,10 +60,10 @@ app.post('/login', (req, res) => {
 				expiresIn: data.body.expiresIn,
 			});
 		})
-		.catch((e) => {
-      // console.log(e)
+		.catch((err) => {
+			console.log(err);
 			res.sendStatus(400);
 		});
 });
 
-app.listen(process.env.PORT || 5000)
+app.listen(process.env.PORT || 5000);
