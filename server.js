@@ -11,16 +11,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Return Access Token given a Refresh Token.
 app.post('/refresh', (req, res) => {
-	const redirectUri =
-		req.body.windowLocationHostname === 'localhost'
-			? 'http://localhost:3000/artists'
-			: process.env.REDIRECT_URL;
-
 	const refreshToken = req.body.refreshToken;
 
 	// Provide credentials.
 	const spotifyApi = new SpotifyWebApi({
-		redirectUri,
+		redirectUri: req.body.redirectUri,
 		clientId: process.env.CLIENT_ID,
 		clientSecret: process.env.CLIENT_SECRET,
 		refreshToken,
@@ -30,7 +25,7 @@ app.post('/refresh', (req, res) => {
 		.refreshAccessToken()
 		.then((data) => {
 			res.json({
-				accessToken: data.body.accessToken,
+				accessToken: data.body.access_token,
 				expiresIn: data.body.expiresIn,
 			});
 		})
@@ -40,14 +35,10 @@ app.post('/refresh', (req, res) => {
 // Return Access Token given a Code. (The client received the code in exchange for Client ID and Client Secret.)
 app.post('/login', (req, res) => {
 	const code = req.body.code;
-	const redirectUri =
-		req.body.windowLocationHostname === 'localhost'
-			? 'http://localhost:3000/artists'
-			: process.env.REDIRECT_URL;
 
-	// Provide credentials.
+  // Provide credentials.
 	const spotifyApi = new SpotifyWebApi({
-		redirectUri,
+		redirectUri: req.body.redirectUri,
 		clientId: process.env.CLIENT_ID,
 		clientSecret: process.env.CLIENT_SECRET,
 	});
